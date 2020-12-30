@@ -1,0 +1,49 @@
+// font-family: 'Roboto', sans-serif;
+// font-family: 'Roboto Condensed', sans-serif;
+// font-family: 'Staatliches', cursive;
+
+@mixin basikText {
+  font-family: $default-font;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  color: $white;
+}
+
+@mixin titleText {
+  font-family: $title-font;
+  color: $white;
+  font-size: 70px;
+  font-weight: normal;
+}
+
+@mixin menuText{
+  font-family: $title-font;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: $white;
+  letter-spacing: 0.5px;
+}
+@mixin buttonText {
+  font-family: $title-font;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: $white;
+}
+
+@mixin button {
+  padding: 12px 30px;
+  min-width: 160px;
+  width: max-content;
+  margin: 0 10px;
+  border-radius: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $red;
+  @include buttonText;
+  cursor: pointer;
+}

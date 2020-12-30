@@ -1,0 +1,115 @@
+header{
+    max-width: 100vw;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    top: 20px;
+    .container{
+        flex-direction: row;
+        height: 100%;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+    }
+    .menu-wrapper{
+        display: flex;
+        background: $blue;
+        border-radius: 26px;
+        overflow: hidden;
+        .list-wrapper{
+            display: flex;
+        }
+        .list-item{
+            padding: 10px 0px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: $blueD;
+            transition: $transition;
+            
+            a{
+                padding: 0 20px;
+                @include menuText;
+                font-size: 24px;
+                line-height: 1.1;
+                letter-spacing: 1px;
+                transition: $transition;
+                border-right: 1px solid rgba($color: $white, $alpha: .2);
+            }
+            &.active{
+                background: $redDark;
+                a{
+                    color: $white;
+                }
+            }
+            /*&:hover{
+                background: $redDark;
+                a{
+                    color: $white;
+                }
+            }*/
+            &:last-child{
+                a{
+                    border: none;
+                }
+                border-top-right-radius: 26px;
+                border-bottom-right-radius: 26px;
+            }
+            &:first-child{
+                border-top-left-radius: 26px;
+                border-bottom-left-radius: 26px;
+            }
+        }
+        &:hover{
+            .list-item{
+                opacity: .4;
+                &:hover{
+                    opacity: 1;
+                }
+            }
+
+        }
+    }
+    .logo-min{
+        position: absolute;
+        left: 100px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .link-wrapper{
+        position: absolute;
+        right: 100px;
+        .list-wrapper{
+            display: flex;
+        }
+        .list-item{
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: $blue;
+            margin-left: 10px;
+            transition: $transition;
+            &:hover{
+                background: $blueD;
+            }
+            a{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img{
+                    width: 21px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+

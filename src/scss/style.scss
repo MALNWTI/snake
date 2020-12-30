@@ -1,0 +1,19 @@
+@import "normalize";
+@import '_font';
+// @import "libs";
+
+@import "_vars";
+@import "_mixin";
+@import "_base";
+//---------------
+
+//--sections
+@import "_inc/section/_header";
+
+@import "_inc/section/_footer";
+
+
+//---pages
+@import "_inc/page/_home";
+
+@import "_media"; // Всегда в конце;

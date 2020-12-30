@@ -1,0 +1,17 @@
+.main-window{
+    height: 100vh;
+    min-height: 700px;
+    background: $blue;
+    .container{
+        align-items: center;
+        justify-content: center;
+    }
+    .title{
+        text-align: center;
+        @include titleText;
+        margin-bottom: 30px;
+        strong{
+            font-size: 120px;
+        }
+    }
+}
