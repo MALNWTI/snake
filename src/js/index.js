@@ -20,10 +20,13 @@ snake[0] = {
   y: 10 * box
 };
 
+document.addEventListener('load', function() {
+
+})
+
 document.addEventListener("keydown", direction);
 
 let dir;
-
 
 function left() {
   if (dir!='right') {
@@ -59,7 +62,7 @@ function direction(event) {
     right();
   else if (event.keyCode == 40)
     down();
- }
+}
 
 
 
