@@ -6,9 +6,12 @@
 <%= _.template(require('./../includes/header.html').default)(data) %>
 
 <canvas id="game" width="608" height="608"></canvas>
-<button onclick="left()" class="left"></button>
-<button onclick="right()" class="right"></button>
-<button onclick="up()" class="up"></button>
-<button onclick="down()" class="down"></button>
+<button class="left"> LEFT </button>
+<button class="right"> RIGHT </button>
+<button class="up"> UP </button>
+<button class="down"> DOWN </button>
+<div class="control">
+  <p>Controll : ASWD or ←↑↓→ </p>
+</div>
 
 <%= _.template(require('./../includes/footer.html').default)(data) %>
