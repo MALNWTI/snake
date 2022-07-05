@@ -7,6 +7,8 @@ const buttonUp = body.querySelector('.up');
 const buttonDown = body.querySelector('.down');
 const canvas = document.getElementById("game");
 let topHeight, border, leftPadding;
+
+
 if (width > 768) {
   topHeight = 100;
   border = 50;
@@ -27,8 +29,16 @@ canvas.height = height;
 
 const ctx = canvas.getContext("2d");
 
-const ground = new Image();
-ground.src = "../img/ground.png";
+const head = new Image();
+const headUp = new Image();
+const headLeft = new Image();
+const headRight = new Image();
+
+head.src = "../img/headDown.svg";
+headUp.src = "../img/headUp.svg";
+headLeft.src = "../img/headLeft.svg";
+headRight.src = "../img/headRight.svg";
+
 
 const foodImg = new Image();
 foodImg.src = "/img/apple.svg";
@@ -52,6 +62,16 @@ snake[0] = {
   x: Math.floor(column / 2) * box + border,
   y: Math.floor(row / 2) * box + border + topHeight
 };
+// snake[1] = {
+//   x: Math.floor(column / 2) * box + border,
+//   y: Math.floor(row / 2) * box + border + topHeight - box
+// };
+// snake[2] = {
+//   x: Math.floor(column / 2) * box + border,
+//   y: Math.floor(row / 2) * box + border + topHeight  - ( box * 2)
+// };
+
+
 
 let food = {
   x: Math.floor((Math.random() * row)) * box + border,
@@ -151,14 +171,38 @@ function drawGame() {
   ctx.drawImage(foodImg, food.x, food.y, box, box);
 
   for(let i=0; i < snake.length; i++){
-    ctx.fillStyle = i == 0 ? "green" : "red";
-    ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    if (i == 0) {
+      if (dir=='down' || dir == undefined) {
+        ctx.drawImage(head, snake[i].x, snake[i].y, box, box);
+      } else if( dir == 'up' ) {
+        ctx.drawImage(headUp, snake[i].x, snake[i].y, box, box);
+      }
+      else if( dir == 'right' ) {
+        ctx.drawImage(headRight, snake[i].x, snake[i].y, box, box);
+      }
+      else {
+        ctx.drawImage(headLeft, snake[i].x, snake[i].y, box, box);  
+      }
+    }else {
+      ctx.beginPath();
+      ctx.arc(snake[i].x + box / 2, snake[i].y + box / 2, box / 2, 0, 2*Math.PI, false);
+      ctx.fillStyle = 'green';
+      ctx.fill();
+      ctx.linetWidth = 1;
+      // ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
   }
 
   ctx.fillStyle = "white";
   ctx.font =  topHeight / 2 + "px Arial";
   ctx.drawImage(foodImg, leftPadding, ((topHeight) - (topHeight / 1.5)  ), topHeight / 2, topHeight / 2 );
   ctx.fillText(score, leftPadding + 50 , ((topHeight) - (topHeight / 4)  ) );
+  
+  if ( getCookie('SnakeScore') ) {
+    ctx.fillStyle = "white";
+    ctx.font =  topHeight / 2 + "px Arial";
+    ctx.fillText( "You best score: " + getCookie('SnakeScore') , leftPadding + topHeight + topHeight /2 , ((topHeight) - (topHeight / 4)  ) );
+  }
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
@@ -175,8 +219,12 @@ function drawGame() {
   }
 
   if(snakeX < border || snakeX > (box * ( row - 1) + border) ||
-     snakeY < topHeight + border || snakeY > ((box * (column - 1)) + topHeight + border) )
+     snakeY < topHeight + border || snakeY > ((box * (column - 1)) + topHeight + border) ) {
      clearInterval(game);
+     if (score > getCookie('SnakeScore')) {
+       document.cookie = 'SnakeScore=' + score;
+     }
+    }
 
   if(dir == "left") snakeX -= box;
   if(dir == "right") snakeX += box;
@@ -186,7 +234,10 @@ function drawGame() {
   function eatTeil(head, arr) {
     for(let i=0; i<arr.length; i++){
       if(head.x == arr[i].x && head.y == arr[i].y)
-        clearInterval(game);
+      clearInterval(game);
+      if (score > getCookie('SnakeScore')) {
+        document.cookie = 'SnakeScore=' + score;
+      }
     }
   }
 
@@ -201,3 +252,19 @@ function drawGame() {
 }
 
 let game = setInterval(drawGame,100);
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
