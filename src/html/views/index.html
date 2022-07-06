@@ -6,15 +6,19 @@
 <%= _.template(require('./../includes/header.html').default)(data) %>
 
 <canvas id="game" width="608" height="608"></canvas>
-<button class="left"> LEFT </button>
-<button class="right"> RIGHT </button>
-<button class="up"> UP </button>
-<button class="down"> DOWN </button>
+<div class="control-buttons">
+  <button class="left"> LEFT </button>
+  <div class="center">
+    <button class="up"> UP </button>
+    <button class="down"> DOWN </button>
+  </div>
+  <button class="right"> RIGHT </button>
+</div>
 <div class="control">
   <span>Controll : ASWD or ←↑↓→ </span>
 </div>
-<!-- <div class="again">
+<button class="again">
   <img src="./img/reload.svg" alt="">
-</div> -->
+</button>
 
 <%= _.template(require('./../includes/footer.html').default)(data) %>

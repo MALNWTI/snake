@@ -1,4 +1,6 @@
 const body = document.querySelector('body');
+const controllButtons = body.querySelector('.control-buttons');
+const again = body.querySelector('.again');
 const height = body.clientHeight;
 const width = body.clientWidth;
 const buttonLeft = body.querySelector('.left');
@@ -6,21 +8,23 @@ const buttonRight = body.querySelector('.right');
 const buttonUp = body.querySelector('.up');
 const buttonDown = body.querySelector('.down');
 const canvas = document.getElementById("game");
-let topHeight, border, leftPadding;
+let topHeight, border, leftPadding, font;
 
 
-if (width > 768) {
+if (width > 1050) {
   topHeight = 100;
   border = 50;
-  leftPadding = 50; 
+  leftPadding = 50;
+  font = 100;
 }
 else {
-  topHeight = 100;
+  topHeight = 50;
   border = 10;
   leftPadding = 10;
+  font = 50;
 }
-const row = 20;
-const column = 20;
+const row = 15;
+const column = 15;
 let box;
 canvas.style.width = width + 'px';
 canvas.style.height = height + 'px';
@@ -48,13 +52,16 @@ columnBox = Math.floor((height - ( topHeight + border * 2 ) ) / column);
 
 if (rowBox > columnBox) {
   box = columnBox;
+  controllButtons.classList.add('right-pos');
 } else {
   box = rowBox;
+  controllButtons.classList.remove('right-pos');
 }
 
 // box = 50;
 let score = 0;
 let dir;
+let game;
 
 let snake = [];
 
@@ -70,8 +77,6 @@ snake[0] = {
 //   x: Math.floor(column / 2) * box + border,
 //   y: Math.floor(row / 2) * box + border + topHeight  - ( box * 2)
 // };
-
-
 
 let food = {
   x: Math.floor((Math.random() * row)) * box + border,
@@ -194,14 +199,14 @@ function drawGame() {
   }
 
   ctx.fillStyle = "white";
-  ctx.font =  topHeight / 2 + "px Arial";
-  ctx.drawImage(foodImg, leftPadding, ((topHeight) - (topHeight / 1.5)  ), topHeight / 2, topHeight / 2 );
-  ctx.fillText(score, leftPadding + 50 , ((topHeight) - (topHeight / 4)  ) );
+  ctx.font =  font / 2 + "px Arial";
+  ctx.drawImage(foodImg, leftPadding, ((topHeight) - (topHeight / 1.5)  ), font / 2, font / 2 );
+  ctx.fillText(score, leftPadding + font / 2 , ((topHeight) - (topHeight / 4)  ) );
   
   if ( getCookie('SnakeScore') ) {
     ctx.fillStyle = "white";
-    ctx.font =  topHeight / 2 + "px Arial";
-    ctx.fillText( "You best score: " + getCookie('SnakeScore') , leftPadding + topHeight + topHeight /2 , ((topHeight) - (topHeight / 4)  ) );
+    ctx.font =  font / 2 + "px Arial";
+    ctx.fillText( "You best score: " + getCookie('SnakeScore') , leftPadding + font * 1.5 , ((topHeight) - (topHeight / 4)  ) );
   }
 
   let snakeX = snake[0].x;
@@ -218,13 +223,11 @@ function drawGame() {
     snake.pop();
   }
 
-  if(snakeX < border || snakeX > (box * ( row - 1) + border) ||
+  if(snakeX < border   || snakeX > (box * ( row - 1) + border) ||
      snakeY < topHeight + border || snakeY > ((box * (column - 1)) + topHeight + border) ) {
      clearInterval(game);
-     if (score > getCookie('SnakeScore')) {
-       document.cookie = 'SnakeScore=' + score;
-     }
-    }
+     reset();
+  }
 
   if(dir == "left") snakeX -= box;
   if(dir == "right") snakeX += box;
@@ -233,11 +236,14 @@ function drawGame() {
 
   function eatTeil(head, arr) {
     for(let i=0; i<arr.length; i++){
-      if(head.x == arr[i].x && head.y == arr[i].y)
-      clearInterval(game);
-      if (score > getCookie('SnakeScore')) {
-        document.cookie = 'SnakeScore=' + score;
+      if(head.x == arr[i].x && head.y == arr[i].y) {
+        clearInterval(game);
+        reset();
       }
+    }
+
+    if (score > getCookie('SnakeScore')) {
+      document.cookie = 'SnakeScore=' + score;
     }
   }
 
@@ -251,7 +257,7 @@ function drawGame() {
 
 }
 
-let game = setInterval(drawGame,100);
+game = setInterval(drawGame,150);
 
 function getCookie(cname) {
   let name = cname + "=";
@@ -267,4 +273,35 @@ function getCookie(cname) {
     }
   }
   return "";
+}
+
+function reset() {
+  again.classList.add('visible');
+
+  if (score > getCookie('SnakeScore')) {
+    document.cookie = 'SnakeScore=' + score;
+  }
+
+  again.addEventListener('click', ()=> {
+    clearInterval(game);
+    game = 0;
+    score = 0;
+    dir;
+
+    snake = [];
+
+    snake[0] = {
+      x: Math.floor(column / 2) * box + border,
+      y: Math.floor(row / 2) * box + border + topHeight
+    };
+
+    food = {
+      x: Math.floor((Math.random() * row)) * box + border,
+      y: Math.floor((Math.random() * column)) * box + border + topHeight,
+    };
+
+    again.classList.remove('visible');
+    game = setInterval(drawGame,150);
+  })
+
 }
