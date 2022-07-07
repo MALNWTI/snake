@@ -38,14 +38,14 @@ const headUp = new Image();
 const headLeft = new Image();
 const headRight = new Image();
 
-head.src = "../img/headDown.svg";
-headUp.src = "../img/headUp.svg";
-headLeft.src = "../img/headLeft.svg";
-headRight.src = "../img/headRight.svg";
+head.src = "./img/headDown.svg";
+headUp.src = "./img/headUp.svg";
+headLeft.src = "./img/headLeft.svg";
+headRight.src = "./img/headRight.svg";
 
 
 const foodImg = new Image();
-foodImg.src = "/img/apple.svg";
+foodImg.src = "./img/apple.svg";
 
 rowBox = Math.floor((width - border * 2) / row);
 columnBox = Math.floor((height - ( topHeight + border * 2 ) ) / column);
