@@ -44,19 +44,19 @@
     "webpack-dev-server": "^3.11.0"
   },
   "directories": {
-    "docs": "dist"
+    "doc": "docs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/VHolodiuk/html-teamplate"
+    "url": "https://github.com/VHolodiuk/snake"
   },
   "keywords": [
-    "JS",
+    "js",
     "html",
     "css",
     "scss."
   ],
   "author": "Vasyl Holodiuk",
   "license": "ISC",
-  "homepage": "https://vholodiuk.github.io/"
+  "homepage": "https://vholodiuk.github.io/snake/"
 }
