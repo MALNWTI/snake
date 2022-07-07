@@ -7,7 +7,7 @@
     "dev": "webpack --mode development",
     "watch": "webpack --mode development --watch",
     "start": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production && prettier --print-width=120 --parser html --write dist/*.html"
+    "build": "webpack --mode production && prettier --print-width=120 --parser html --write docs/*.html"
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
@@ -44,11 +44,11 @@
     "webpack-dev-server": "^3.11.0"
   },
   "directories": {
-    "doc": "dist"
+    "doc": "docs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/VHolodiuk/snake/dist"
+    "url": "https://github.com/VHolodiuk/snake/docs"
   },
   "keywords": [
     "js",

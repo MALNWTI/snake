@@ -25,7 +25,8 @@ const htmlPlugins = generateHtmlPlugins("./src/html/views");
 const config = {
   entry: ["./src/js/index.js", "./src/scss/style.scss"],
   output: {
-    filename: "./js/bundle.[hash].js"
+    filename: "./js/bundle.[hash].js",
+    path: path.join(__dirname, 'docs')
   },
   devtool: "source-map",
   mode: "production",
