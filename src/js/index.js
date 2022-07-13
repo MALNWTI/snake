@@ -8,8 +8,7 @@ const buttonRight = body.querySelector('.right');
 const buttonUp = body.querySelector('.up');
 const buttonDown = body.querySelector('.down');
 const canvas = document.getElementById("game");
-let topHeight, border, leftPadding, font;
-
+let topHeight, border, leftPadding, font, timer;
 
 if (width > 1050) {
   topHeight = 100;
@@ -23,8 +22,8 @@ else {
   leftPadding = 10;
   font = 50;
 }
-const row = 15;
-const column = 15;
+const row = 10;
+const column = 10;
 let box;
 canvas.style.width = width + 'px';
 canvas.style.height = height + 'px';
@@ -53,9 +52,11 @@ columnBox = Math.floor((height - ( topHeight + border * 2 ) ) / column);
 if (rowBox > columnBox) {
   box = columnBox;
   controllButtons.classList.add('right-pos');
+  timer = setTimer('right');
 } else {
   box = rowBox;
   controllButtons.classList.remove('right-pos');
+  timer = setTimer('left');
 }
 
 // box = 50;
@@ -131,13 +132,16 @@ function direction(event) {
 }
 
 function drawGame() {
+  // Draw background
   ctx.fillStyle = '#578a34';
   ctx.fillRect(0, 0 , width, height);
+  // Draw header
   ctx.fillStyle = '#4a752c';
   ctx.fillRect(0, 0 , width, topHeight);
   let topPos = topHeight + border;
   let leftPos = border;
 
+  // Draw chess tabe
   for (let index = 0; index < row; index++) {
     if (index % 2 == 0) {
       ctx.fillStyle = '#aad751';
@@ -173,9 +177,12 @@ function drawGame() {
     leftPos = leftPos + box;
   }
 
+  // Draw food
   ctx.drawImage(foodImg, food.x, food.y, box, box);
 
+  // Draw snake
   for(let i=0; i < snake.length; i++){
+    // Draw head
     if (i == 0) {
       if (dir=='down' || dir == undefined) {
         ctx.drawImage(head, snake[i].x, snake[i].y, box, box);
@@ -189,6 +196,7 @@ function drawGame() {
         ctx.drawImage(headLeft, snake[i].x, snake[i].y, box, box);  
       }
     }else {
+      // Draw tail
       ctx.beginPath();
       ctx.arc(snake[i].x + box / 2, snake[i].y + box / 2, box / 2, 0, 2*Math.PI, false);
       ctx.fillStyle = 'green';
@@ -198,6 +206,7 @@ function drawGame() {
     }
   }
 
+  // Write scroes
   ctx.fillStyle = "white";
   ctx.font =  font / 2 + "px Arial";
   ctx.drawImage(foodImg, leftPadding, ((topHeight) - (topHeight / 1.5)  ), font / 2, font / 2 );
@@ -209,44 +218,38 @@ function drawGame() {
     ctx.fillText( "You best score: " + getCookie('SnakeScore') , leftPadding + font * 1.5 , ((topHeight) - (topHeight / 4)  ) );
   }
 
+  // Change head position
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
 
+  // When eat food
   if (snakeX == food.x && snakeY == food.y) {
     score++;
+    // change food position
     food = {  
       x: Math.floor((Math.random() * row)) * box + border,
       y: Math.floor((Math.random() * column)) * box + border + topHeight,    
     };
   }
   else {
+    // Delete last element of tail
     snake.pop();
   }
 
+  // Stop game when hit the wall
   if(snakeX < border   || snakeX > (box * ( row - 1) + border) ||
      snakeY < topHeight + border || snakeY > ((box * (column - 1)) + topHeight + border) ) {
      clearInterval(game);
      reset();
   }
-
+  
+  //
   if(dir == "left") snakeX -= box;
   if(dir == "right") snakeX += box;
   if(dir == "up") snakeY -= box;
   if(dir == "down") snakeY += box;
 
-  function eatTeil(head, arr) {
-    for(let i=0; i<arr.length; i++){
-      if(head.x == arr[i].x && head.y == arr[i].y) {
-        clearInterval(game);
-        reset();
-      }
-    }
-
-    if (score > getCookie('SnakeScore')) {
-      document.cookie = 'SnakeScore=' + score;
-    }
-  }
-
+  // 
   let newHead ={
     x: snakeX,
     y: snakeY
@@ -257,7 +260,7 @@ function drawGame() {
 
 }
 
-game = setInterval(drawGame,150);
+game = setInterval(drawGame, timer);
 
 function getCookie(cname) {
   let name = cname + "=";
@@ -304,4 +307,23 @@ function reset() {
     game = setInterval(drawGame,150);
   })
 
+}
+
+function eatTeil(head, arr) {
+  for(let i=0; i<arr.length; i++){
+    if(head.x == arr[i].x && head.y == arr[i].y) {
+      clearInterval(game);
+      reset();
+    }
+  }
+
+  if (score > getCookie('SnakeScore')) {
+    document.cookie = 'SnakeScore=' + score;
+  }
+}
+
+function setTimer(pos) {
+  let time = 200;
+
+  return(time)
 }
